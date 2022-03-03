@@ -13,19 +13,20 @@ const useStyles = makeStyles(theme => ({
     cell:{
         "float": "left",
         "vertical-align":"top",
-        "margin":"5px"
+        "margin":"5px",
+        "font-size":"14px"
     },
     "winrate-positive":{
         "font-weight":"bold",
-        color:"#488b96"
+        color:theme.palette.primary.main
     },
     "winrate-negative":{
         "font-weight":"bold",
-        color:"white"
+        color:theme.palette.text.primary
     },
     image:{
-        width:"75px",
-        height:"75px"
+        width:"65px",
+        height:"65px"
     },
     rank:{
         color:"white",
@@ -35,7 +36,8 @@ const useStyles = makeStyles(theme => ({
         "font-size":"0.8rem"
     },
     reducedLines:{
-        "line-height":"1"
+        "line-height":"1",
+        "font-size":"12px"
     }
 }));
 
@@ -104,11 +106,11 @@ export const DraftSummonerProfile: React.FC<DraftSummonerProfileProps> = ({
 
 
     return (
-        <Card elevation='1' p={1}>
+        <Card elevation='1' p={1} style={{"margin":"5px"}}>
             <Typography
                 variant='textMain' paragraph
                 color='textSecondary'
-                mt={2.5} mb={2.5}
+                mt={.5} mb={2.5}
             >
                 {/* Champion image cell */}
                 <div class={classes.cell}>
@@ -123,7 +125,7 @@ export const DraftSummonerProfile: React.FC<DraftSummonerProfileProps> = ({
                     <br />
                     {!isThereData && "no data"}
                     {isThereData && <div className={classes.reducedLines}>
-                        <span class={winrate > 50 ? classes["winrate-positive"]:classes["winrate-negative"]}> {winrate + "% wr"}</span>
+                        <span class={winrate > 50 ? classes["winrate-positive"]:classes["winrate-negative"]}> {winrate.toFixed(1) + "% wr"}</span>
                         <br/>
                         <span className={classes.rank}> {getTierName(tier) + " " + division}</span>
                         <br/>
@@ -138,9 +140,9 @@ export const DraftSummonerProfile: React.FC<DraftSummonerProfileProps> = ({
                     <br />
                     {!isThereRoleData && "no data"}
                     {isThereRoleData && <div className={classes.reducedLines}>
-                        <span className={roleProfile.winrate > 50 ? classes["winrate-positive"] : classes["winrate-negative"]}> {roleProfile.winrate + "% wr"}</span>
+                        <span className={roleProfile.winrate > 50 ? classes["winrate-positive"] : classes["winrate-negative"]}> {roleProfile.winrate.toFixed(1) + "% wr"}</span>
                         <br/>
-                        <span className={classes.rank}> {roleProfile.kda + " kda"}</span>
+                        <span className={classes.rank}> {roleProfile.kda.toFixed(1) + " kda"}</span>
                         <br/>
                         <span className={classes.games}> {roleProfile.gamesPlayed + " games"}</span>
                     </div>}
@@ -153,9 +155,9 @@ export const DraftSummonerProfile: React.FC<DraftSummonerProfileProps> = ({
                     <br />
                     {!isThereChampionData && "no data"}
                     {isThereChampionData && <div className={classes.reducedLines}>
-                        <span className={championProfile.winrate > 50 ? classes["winrate-positive"] : classes["winrate-negative"]}> {championProfile.winrate + "% wr"}</span>
+                        <span className={championProfile.winrate > 50 ? classes["winrate-positive"] : classes["winrate-negative"]}> {championProfile.winrate.toFixed(1) + "% wr"}</span>
                         <br/>
-                        <span className={classes.rank}> {championProfile.kda + " kda"}</span>
+                        <span className={classes.rank}> {championProfile.kda.toFixed(1) + " kda"}</span>
                         <br/>
                         <span className={classes.games}> {championProfile.gamesPlayed + " games"}</span>
                     </div>}

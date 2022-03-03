@@ -5,7 +5,7 @@ import { DraftSummonerProfile } from '../1_draft-summoner-profile';
 
 // https://v4.mui.com/styles/api/#examples-2
 const useStyles = makeStyles(theme => ({
-    root: {
+    root:{
 
     }
 }));
@@ -24,9 +24,7 @@ export const DraftSummonerProfiles: React.FC<DraftSummonerProfilesProps> = ({
 
     return (
         <Card elevation='0' p={1}>
-            <pre>
-                {JSON.stringify(profiles, undefined, 4)}
-            </pre>
+            {profiles.map((p, index) => <DraftSummonerProfile profile={p} key={index}/>)}
         </Card>
     );
 }
