@@ -47,7 +47,9 @@ export const ParticipantProfiles: React.FC<ParticipantProfilesProps> = ({
         <DraftSummonerProfiles profiles={participants.map(participant => {
             // TODO: Match the participant with one of the profiles from the response
             return {
-                summonerName: participant.summonerName
+                summonerName: participant.summonerName,
+                championId: participant.championId,
+                championProfile: participant.championProfile
             };
         })} />
     );
