@@ -6,7 +6,7 @@ export function getRoleName(role: Role): string {
         case Role.Top:
             return 'Top';
         case Role.Jungle:
-            return 'Jungle';
+            return 'Jungler';
         case Role.Middle:
             return 'Middle';
         case Role.Bottom:

@@ -2,12 +2,40 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import React from 'react';
 import { useResource } from '../../1_hooks/resource.provider';
 import { Card, Typography } from '../../common/core/components';
-import { Client, isChampionIdValid, isRoleValid } from '../../common/league';
+import {Client, getRoleName, getTierName, isChampionIdValid, isRoleValid} from '../../common/league';
+import {Role} from "../../common/league/client";
 
 // https://v4.mui.com/styles/api/#examples-2
 const useStyles = makeStyles(theme => ({
     root: {
 
+    },
+    cell:{
+        "float": "left",
+        "vertical-align":"top",
+        "margin":"5px"
+    },
+    "winrate-positive":{
+        "font-weight":"bold",
+        color:"#488b96"
+    },
+    "winrate-negative":{
+        "font-weight":"bold",
+        color:"white"
+    },
+    image:{
+        width:"75px",
+        height:"75px"
+    },
+    rank:{
+        color:"white",
+        "font-size":"0.8rem"
+    },
+    games:{
+        "font-size":"0.8rem"
+    },
+    reducedLines:{
+        "line-height":"1"
     }
 }));
 
@@ -70,6 +98,10 @@ export const DraftSummonerProfile: React.FC<DraftSummonerProfileProps> = ({
 
     const hasRole = isRoleValid(role);
     const hasChampion = isChampionIdValid(championId);
+    const isThereData = !(winrate === undefined);
+    const isThereRoleData = !(roleProfile === undefined);
+    const isThereChampionData = !(championProfile === undefined);
+
 
     return (
         <Card elevation='1' p={1}>
@@ -78,7 +110,56 @@ export const DraftSummonerProfile: React.FC<DraftSummonerProfileProps> = ({
                 color='textSecondary'
                 mt={2.5} mb={2.5}
             >
-                Not implemented.
+                {/* Champion image cell */}
+                <div class={classes.cell}>
+                    {hasChampion && <img class={classes.image} src={getChampionImage(championId)} />}
+                    {/* Need to find a placeholder */}
+                    {!hasChampion && <img class={classes.image} src={getChampionImage(championId)} />}
+                </div>
+
+                {/* Summoner info cell */}
+                <div class={classes.cell}>
+                    {summonerName}
+                    <br />
+                    {!isThereData && "no data"}
+                    {isThereData && <div className={classes.reducedLines}>
+                        <span class={winrate > 50 ? classes["winrate-positive"]:classes["winrate-negative"]}> {winrate + "% wr"}</span>
+                        <br/>
+                        <span className={classes.rank}> {getTierName(tier) + " " + division}</span>
+                        <br/>
+                        <span className={classes.games}> {gamesPlayed + " games"}</span>
+                    </div>}
+                </div>
+
+                {/* Role info cell */}
+                {/* Requires role data and lack of champion data */}
+                {!hasChampion && hasRole && <div class={classes.cell}>
+                    as {getRoleName(role)}
+                    <br />
+                    {!isThereRoleData && "no data"}
+                    {isThereRoleData && <div className={classes.reducedLines}>
+                        <span className={roleProfile.winrate > 50 ? classes["winrate-positive"] : classes["winrate-negative"]}> {roleProfile.winrate + "% wr"}</span>
+                        <br/>
+                        <span className={classes.rank}> {roleProfile.kda + " kda"}</span>
+                        <br/>
+                        <span className={classes.games}> {roleProfile.gamesPlayed + " games"}</span>
+                    </div>}
+                </div>}
+
+                {/* Champion info cell */}
+                {/* Requires champion data */}
+                {hasChampion && <div class={classes.cell}>
+                    on {getChampionName(championId)}
+                    <br />
+                    {!isThereChampionData && "no data"}
+                    {isThereChampionData && <div className={classes.reducedLines}>
+                        <span className={championProfile.winrate > 50 ? classes["winrate-positive"] : classes["winrate-negative"]}> {championProfile.winrate + "% wr"}</span>
+                        <br/>
+                        <span className={classes.rank}> {championProfile.kda + " kda"}</span>
+                        <br/>
+                        <span className={classes.games}> {championProfile.gamesPlayed + " games"}</span>
+                    </div>}
+                </div>}
             </Typography>
         </Card>
     );
